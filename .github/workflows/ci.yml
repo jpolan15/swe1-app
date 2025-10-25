@@ -117,10 +117,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
     
-    - name: Initialize and Deploy to Elastic Beanstalk
+    - name: Deploy to Elastic Beanstalk
       env:
         AWS_REGION: us-east-1
-        AWS_DEFAULT_REGION: us-east-1
       run: |
-        eb init swe -p python-3.11 -r us-east-1 --force
-        eb deploy swe-django-env --staged
+        eb init -p python-3.11 swe -r $AWS_REGION
+        eb use swe-django-env
+        eb deploy swe-django-env -r $AWS_REGION
