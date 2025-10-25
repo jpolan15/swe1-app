@@ -91,3 +91,25 @@ jobs:
       continue-on-error: true
       run: |
         safety check --json || true
+
+  deploy:
+    needs: [test, lint, security]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Deploy to AWS Elastic Beanstalk
+      uses: einaregilsson/beanstalk-deploy@v22
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: swe
+        environment_name: swe-env
+        version_label: github-${{ github.sha }}
+        region: us-east-1
+        deployment_package: .
+        use_existing_version_if_available: true
+        wait_for_environment_recovery: 300
