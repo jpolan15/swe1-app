@@ -120,6 +120,7 @@ jobs:
     - name: Initialize and Deploy to Elastic Beanstalk
       env:
         AWS_REGION: us-east-1
+        AWS_DEFAULT_REGION: us-east-1
       run: |
-        eb init -p python-3.11 swe --region $AWS_REGION --no-interactive
-        eb deploy swe-django-env --region $AWS_REGION --staged
+        eb init swe -p python-3.11 -r us-east-1 --force
+        eb deploy swe-django-env --staged
