@@ -121,6 +121,6 @@ jobs:
       env:
         AWS_REGION: us-east-1
       run: |
-        eb init -p python-3.11 swe -r $AWS_REGION
-        eb use swe-django-env
-        eb deploy swe-django-env -r $AWS_REGION
+        eb init -p python-3.11 swe1-app -r $AWS_REGION
+        eb use swe1-env
+        eb deploy swe1-env -r $AWS_REGION
